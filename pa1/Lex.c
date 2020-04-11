@@ -48,12 +48,13 @@ int main(int argc, char* argv[]){
 
 
     while(fgets(strLine,MAX_LINE,in)!= NULL){
-        char * T = malloc(sizeof(char)*1024);
+        char * T = malloc(sizeof(char)*100);
         for (int j = 0; j < strlen(strLine);j++){
             T[j] = strLine[j];
         }
         strL[n] = T;
         n++;
+
     }
 
 
@@ -87,14 +88,21 @@ int main(int argc, char* argv[]){
     }
 
 
-    
-    print(out, strL, L);
+    moveFront(L);
+
+    while(index(L) != -1){
+        fprintf(out, strL[get(L)]);
+
+        moveNext(L);
+    }
+
 
 
     for (int i = 0; i < count; i++){
         free(strL[i]);
     }free(strL);
-
+    free(strLine);
+    freeList(&L);
     fclose(in);
     fclose(out);
     return(0);

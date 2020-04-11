@@ -64,7 +64,6 @@ List newList(void){
 void deleteAll(Node R){
    if( R!=NULL ){
       deleteAll(R->next);
-      //deleteAll(R->right);
       freeNode(&R);
    }
 }
@@ -80,12 +79,6 @@ void dequeueAll(List Q){
    Q->totalNumber = 0;
    deleteAll(Q -> front);
    
-   //Node N = Q->front;
-   /*while(Q->front != NULL){
-      N = Q->front;
-      Q->front = Q->front->next;
-      freeNode(&N);
-   }*/
    Q -> front = Q->back = NULL;
    Q ->cursor = NULL;
 }
@@ -190,14 +183,7 @@ int equals(List A, List B){
     return eq;
     
 
-    /*while (N != NULL && M != NULL && eq){
-        if (N->index != M ->index){
-            return 0;
-        }
-        N = N->next;
-        M = M->next;
-    }
-    return 1; */
+    
 }
 
 
@@ -396,9 +382,9 @@ void deleteFront(List L){    // Delete the front element. Pre: length()>0
     // Code...
     Node N = L->front;
     if(length(L) == 1){
+        freeNode(&L->front);
         L->front = L->back = NULL;
         L->cursor = NULL;
-        freeNode(&N);
         L->totalNumber--;
 
     }
@@ -406,9 +392,10 @@ void deleteFront(List L){    // Delete the front element. Pre: length()>0
         if(L->cursor == L->front){
             L->cursor = NULL;
         }
-
-        L->front = L->front->next;
-        freeNode(&N);
+        freeNode(&L->front);
+        L->front = N->next;
+        L->front->previous = NULL;
+        
         L->totalNumber--;
     }
     
@@ -427,17 +414,19 @@ void deleteBack(List L){    // Delete the back element. Pre: length()>0
     // Code...
     Node N = L->back;
     if(length(L)==1){
+        freeNode(&L->back);  
         L->front=L->back = NULL;
         L->cursor = NULL;
-        freeNode(&N);  
+        
         L->totalNumber--;
     }
     else{
         if(L->cursor == L->back){
             L->cursor = NULL;
         }
-        L->back = L->back->previous;
-        freeNode(&N);   
+        freeNode(&L->back);  
+        L->back = N->previous;
+        L->back->next = NULL;
         L->totalNumber--;
     }
     
