@@ -182,21 +182,22 @@ int equals(List A, List B){
     Node N = A->front;
     Node M = B->front;
     int eq = (A->totalNumber == B->totalNumber);
-    /*while (eq && N!=NULL){
+    while (eq && N!=NULL){
         eq = (N->index == M->index);
         N = N->next;
         M = M->next;
-    }*/
+    }
+    return eq;
     
 
-    while (N != NULL && M != NULL && eq){
+    /*while (N != NULL && M != NULL && eq){
         if (N->index != M ->index){
             return 0;
         }
         N = N->next;
         M = M->next;
     }
-    return 1; 
+    return 1; */
 }
 
 
