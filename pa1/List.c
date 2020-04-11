@@ -467,9 +467,11 @@ void delete(List L){
     }
     else if(L->cursor == L->front){
         deleteFront(L);
+        L->cursor = NULL;
     }
     else if(L->cursor == L->back){
         deleteBack(L);
+        L->cursor = NULL;
     }
     else{
         L->cursor->previous->next = L->cursor->next;
