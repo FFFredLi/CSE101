@@ -208,7 +208,9 @@ void clear(List L){// Resets L to its original empty state.
         printf("List Error: calling clear() on NULL List reference.\n");
         exit(EXIT_FAILURE);
     }
-    dequeueAll(L);
+    deleteAll(L->front);
+    L->totalNumber = 0;
+    L->front = L->back = L->cursor = NULL;
     // Code..
 
 } 
@@ -458,10 +460,16 @@ void delete(List L){
         exit(EXIT_FAILURE);
     }
     if(length(L) == 1){
-        L->front=L->back = NULL;
         freeNode(&L->cursor);
+        L->front=L->back = NULL;
         L->cursor = NULL;
         L->totalNumber--;
+    }
+    else if(L->cursor == L->front){
+        deleteFront(L);
+    }
+    else if(L->cursor == L->back){
+        deleteBack(L);
     }
     else{
         L->cursor->previous->next = L->cursor->next;
