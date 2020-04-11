@@ -98,6 +98,7 @@ void freeList(List* pL){
         free(*pL);
         *pL = NULL;
     }
+
 }
 
 
@@ -201,9 +202,8 @@ void clear(List L){// Resets L to its original empty state.
         printf("List Error: calling clear() on NULL List reference.\n");
         exit(EXIT_FAILURE);
     }
-    deleteAll(L->front);
-    L->totalNumber = 0;
-    L->front = L->back = L->cursor = NULL;
+    dequeueAll(L);
+
     // Code..
 
 } 
