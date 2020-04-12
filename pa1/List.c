@@ -389,20 +389,24 @@ void deleteFront(List L){    // Delete the front element. Pre: length()>0
     // Code...
     Node N = L->front;
     if(length(L) == 1){
-        freeNode(&L->front);
-        L->front = L->back = NULL;
-        L->cursor = NULL;
-        L->totalNumber--;
+        clear(L);
 
+    }
+    else if (length(L) == 2){
+        
+        L->front = L->back = N->next;
+        L->front->previous = NULL; 
+        freeNode(&N);
+        L->totalNumber--;
     }
     else{
         if(L->cursor == L->front){
             L->cursor = NULL;
         }
-        freeNode(&L->front);
+        
         L->front = N->next;
         L->front->previous = NULL;
-        
+        freeNode(&N);
         L->totalNumber--;
     }
     
@@ -421,19 +425,17 @@ void deleteBack(List L){    // Delete the back element. Pre: length()>0
     // Code...
     Node N = L->back;
     if(length(L)==1){
-        freeNode(&L->back);  
-        L->front=L->back = NULL;
-        L->cursor = NULL;
+        clear(L);
         
-        L->totalNumber--;
+        
     }
     else{
         if(L->cursor == L->back){
             L->cursor = NULL;
         }
-        freeNode(&L->back);  
         L->back = N->previous;
         L->back->next = NULL;
+        freeNode(&N);  
         L->totalNumber--;
     }
     
