@@ -26,15 +26,17 @@ int main(int argc, char* argv[]){
         printf("Usage: %s <input file> <output file>\n", argv[0]);
         exit(1);
     }
-    int n, count = 0;
-    FILE *in, *out;
-    char * strLine = malloc(sizeof(char)*MAX_LINE);
+    int n = 0;
+    int count = 0;
+    FILE *in; 
+    FILE *out;
+    
     List L = newList();
     // open files for reading and writing 
     in = fopen(argv[1], "r");
     out = fopen(argv[2], "w");
     
-    
+    char strLine[MAX_LINE];
     
     
     if( in==NULL ){
@@ -51,21 +53,21 @@ int main(int argc, char* argv[]){
     rewind(in);
     
     
-    char** strL = malloc(sizeof(char*) * (count));
-
-
-    while(fgets(strLine,MAX_LINE,in)!= NULL){
-        char * T = malloc(sizeof(char)*100);
-        for (int j = 0; j < strlen(strLine);j++){
-            T[j] = strLine[j];
-        }
-        strL[n] = T;
-        n++;
-
+    char** strL = malloc(sizeof(char*) * (count + 1));
+    for (int i = 0; i < count; i++){
+        strL[i] = malloc(sizeof(char)*1024);
     }
 
-
-
+    while(fgets(strLine,MAX_LINE,in)!= NULL){
+        //char * T = malloc(sizeof(char)*100);
+        for (int j = 0; j < strlen(strLine);j++){
+            strL[n][j] = strLine[j];
+        }
+        //strL[n] = T;
+        n++;
+        
+    }
+    strL[n] = '\0';
 
 
 
@@ -94,21 +96,20 @@ int main(int argc, char* argv[]){
         }
     }
 
-
     moveFront(L);
 
     while(index(L) != -1){
-        fprintf(out, strL[get(L)]);
+        fprintf(out, "%s", strL[get(L)]);
 
         moveNext(L);
     }
 
 
 
-    for (int i = 0; i < count; i++){
+    for (int i = 0; i < count + 1; i++){
         free(strL[i]);
     }free(strL);
-    free(strLine);
+    //free(strLine);
     freeList(&L);
     fclose(in);
     fclose(out);
