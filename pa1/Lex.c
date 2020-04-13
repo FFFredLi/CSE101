@@ -52,10 +52,10 @@ int main(int argc, char* argv[]){
     }
     rewind(in);
     
-    
-    char** strL = malloc(sizeof(char*) * (count + 1));
+    printf("%d",count);
+    char** strL = calloc(count,sizeof(char*));
     for (int i = 0; i < count; i++){
-        strL[i] = malloc(sizeof(char)*1024);
+        strL[i] = calloc(MAX_LINE,sizeof(char));
     }
 
     while(fgets(strLine,MAX_LINE,in)!= NULL){
@@ -67,7 +67,7 @@ int main(int argc, char* argv[]){
         n++;
         
     }
-    strL[n] = '\0';
+
 
 
 
@@ -82,7 +82,7 @@ int main(int argc, char* argv[]){
             moveFront(L);
             
   
-            while(index(L) != -1 &&strcmp(strL[i], strL[get(L)] )> 0 ){
+            while(index(L) != -1 && strcmp(strL[i], strL[get(L)] )> 0 ){
  
                 moveNext(L);
             }
@@ -99,14 +99,18 @@ int main(int argc, char* argv[]){
     moveFront(L);
 
     while(index(L) != -1){
-        fprintf(out, "%s", strL[get(L)]);
-
+        //for (int i = 0; i < strlen(strL[get(L)]); i++){
+        //    fprintf(out, "%c", strL[get(L)][i]);
+        //}
+        int x = get(L);
+        fprintf(out, "%s", strL[x]);
+        //fflush(out);
         moveNext(L);
     }
 
 
 
-    for (int i = 0; i < count + 1; i++){
+    for (int i = 0; i < count ; i++){
         free(strL[i]);
     }free(strL);
     //free(strLine);
