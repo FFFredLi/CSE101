@@ -563,14 +563,14 @@ void set(List L, long x){
     if(length(L) == 1){
         L->back = L->front = L->cursor = N;
     }
-    else if (T = L->front){
+    else if (T == L->front){
         
         N->next = T->next;
         T->next->previous = N;
         L->front = N;
         L->cursor = N;
     }
-    else if (T = L->back){
+    else if (T == L->back){
         T->previous->next = N;
         N->previous = T->previous;
         L->back = N;

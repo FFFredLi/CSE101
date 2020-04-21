@@ -30,7 +30,7 @@ int main(int argc, char* argv[]){
     BigInteger B;
     char ** str = calloc(4, sizeof(char*));
     for (int i = 0; i < 4; i++){
-        str[i] = calloc(MAX_LINE, siezof(char*));
+        str[i] = calloc(MAX_LINE, sizeof(char*));
     }
     while(fgets(strLine,MAX_LINE,in)!= NULL){
         for (int j = 0; j < strlen(strLine);j++){
@@ -89,7 +89,7 @@ int main(int argc, char* argv[]){
     freeBigInteger(&two);
     freeBigInteger(&A);
     freeBigInteger(&B);
-    
+
     for (int i = 0; i < 4; i++){
         free(str[i]);
     }free(str);
