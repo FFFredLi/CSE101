@@ -181,14 +181,14 @@ void negate(BigInteger N){
 
 void putInt(BigInteger B, char* s, int state){
     int length = strlen(s) - 1;
-    char temp[POWER]; 
-    char * endptr;
+    char temp[POWER + 1] = "\0"; 
+    char * endptr = NULL;
     long num;
     if (state == 1){                              // with {+, -} prefix ::   + 12345 -13532
         while (length > 1){
             for (int i = POWER - 1; i > -1; i--){
                 if (length == 0){
-                    temp[i] = '0';
+                    temp[i] = 0;
                 }
                 else{
                     temp[i] = s[length];
@@ -276,8 +276,9 @@ BigInteger copy(BigInteger N){
     }
 
     BigInteger C = newBigInteger();
+    freeList(&(C->number));
     C->sign = N->sign;
-    C->number = copyList(N->number);
+    C->number =copyList(N->number) ;
     return C;
     
 }
