@@ -61,7 +61,12 @@ int main(int argc, char* argv[]){
     fprintf(out, "\n");
 
     
-    multiply (S, );              // 3A - 2B
+    BigInteger three = stringToBigInteger("3");
+    BigInteger two = stringToBigInteger("2");
+    multiply(S, A, three);
+    multiply(three, two, B);
+
+    multiply (S, S, three);              // 3A - 2B
     fprintf(out, "\n");
 
     multiply(S, A, B);           // AB
@@ -76,9 +81,15 @@ int main(int argc, char* argv[]){
     printBigInteger(out,S);
     fprintf(out, "\n");
 
+
     // 9A^4 + 16B^5
     
-
+    freeBigInteger(&S);
+    freeBigInteger(&three);
+    freeBigInteger(&two);
+    freeBigInteger(&A);
+    freeBigInteger(&B);
+    
     for (int i = 0; i < 4; i++){
         free(str[i]);
     }free(str);

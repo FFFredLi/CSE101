@@ -12,7 +12,7 @@ int main(){
     
     BigInteger X;
     X = diff(Ab , Bb);
-    
+    X = prod(Ab,Bb);
     printBigInteger(stdout, X);
     printf("\n");
 }

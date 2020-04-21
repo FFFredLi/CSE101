@@ -47,16 +47,17 @@ int sign(BigInteger N){
         printf("BigInteger Error : Calling sign() on NULL BigInteger reference.");
         exit(EXIT_FAILURE);
     }
-
+    int i;
     if(N->sign == 0){
-        return 0;
+        i = 0;
     }
     if(N->sign == -1){
-        return -1;
+        i= -1;
     }
     if(N->sign == 1){
-        return 1;
+        i= 1;
     }
+    return i;
 }
 
 
@@ -599,7 +600,7 @@ long exponent(int count){
         return result;
     else{
         while(count != 0){
-            result *= BASE;
+            result *= 10;
             --count;
         }
     }
@@ -635,27 +636,29 @@ void multiply(BigInteger P, BigInteger A, BigInteger B){
     while (index(B->number) != -1){
         counterA = 0;
         moveBack(A->number);
-        
+        for (int i = 0 ; i < POWER ; i++){
+            long t = get(B->number);
+            ind = t%exponent(i+1);
+            t = t - ind;
+
             while(index(A->number)!= -1){
-                for (int i = 0 ; i < POWER ; i++){
-                    long t = get(B->number);
-                    long ind = t%exponent(i+1);
-                    temp += ind * exponent(i)*get(A->number)*exponent(counterA) + carry;
-                    carry = temp / BASE;
-                    prepend(P->number, temp%BASE);
-                    t = t - ind;
-                }
-                    
-                
+                temp += ind * exponent(i)*get(A->number)*exponent(counterA) + carry;
+                carry = temp / BASE;
 
                 movePrev(A->number);
                 counterA++;
             }
+                
+                //prepend(P->number, temp%BASE);
+                
+        }
+        prepend(P->number, temp%BASE);
+        
             
         
 
 
-        while (index(A->number) != -1){
+        /*while (index(A->number) != -1){
             
             moveBack(P->number);
 
@@ -673,7 +676,7 @@ void multiply(BigInteger P, BigInteger A, BigInteger B){
 
             movePrev(A->number);
             counterA++;
-        }
+        } */
         movePrev(B->number);
         counterB++;
 
