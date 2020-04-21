@@ -174,7 +174,7 @@ long get(List L){
 }
 
 
-int equals(List A, List B){
+int equal(List A, List B){
     if (A == NULL || B == NULL){
         printf("List Error: calling equals() on NULL List reference.\n");
         exit(EXIT_FAILURE);

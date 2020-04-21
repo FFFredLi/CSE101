@@ -5,12 +5,14 @@
 
 int main(){
     char* A = "+1242342";
-    char* B = "6432";
+    char* B = "-6432";
     BigInteger Ab = stringToBigInteger(A);
     BigInteger Bb = stringToBigInteger(B);
 
-    printBigInteger(stdout, Ab);
-
-    Ab = sum(Ab + Bb);
-    printBigInteger(stdout, Ab);
+    
+    BigInteger X;
+    X = diff(Ab , Bb);
+    
+    printBigInteger(stdout, X);
+    printf("\n");
 }

@@ -196,10 +196,11 @@ void putInt(BigInteger B, char* s, int state){
         
     }
     else{                                         // without {+, -} prefix     23042
-        while (length > 0){
+        while (length >= 0){
             for (int i = POWER - 1; i > -1; i--){
-                if (length == 0){
+                if (length < 0){
                     temp[i] = '0';
+                    length--;
                 }
                 else{
                     temp[i] = s[length];
@@ -709,13 +710,11 @@ void printBigInteger(FILE* out, BigInteger N){
 
     if(N->sign == -1)
         fprintf(out,"-");
-    else if(N->sign == 1)
-        fprintf(out,"+");
-    else{
+    else if(N->sign == 0){
         fprintf(out,"0\n");
         return;
     }
-
+        
 
     printList(out, N->number);
 }
