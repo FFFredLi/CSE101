@@ -494,7 +494,7 @@ void printList(FILE* out, List L){
         if (N->index == 0 && N == L->front)
             continue;
         if (N == L->front){
-            fprintf(out,"%ld",N->index)
+            fprintf(out,"%ld",N->index);
         }
         else{
             fprintf(out,"%09ld",N->index);
@@ -560,9 +560,29 @@ void set(List L, long x){
     }
     Node N = newNode(x);
     Node T = L->cursor;
-    N->next = T->next;
-    N->previous = T->previous;
-    T->previous->next = N;
-    T->next->previous = N;
+    if(length(L) == 1){
+        L->back = L->front = L->cursor = N;
+    }
+    else if (T = L->front){
+        
+        N->next = T->next;
+        T->next->previous = N;
+        L->front = N;
+        L->cursor = N;
+    }
+    else if (T = L->back){
+        T->previous->next = N;
+        N->previous = T->previous;
+        L->back = N;
+        L->cursor = N;
+    }
+    else{
+        N->next = T->next;
+        N->previous = T->previous;
+        T->previous->next = N;
+        T->next->previous = N;
+        L->cursor = N;
+    }
+   
     freeNode(&T);
 }

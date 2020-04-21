@@ -60,6 +60,7 @@ int main(int argc, char* argv[]){
     printBigInteger(out,S);
     fprintf(out, "\n");
 
+    
     multiply (S, );              // 3A - 2B
     fprintf(out, "\n");
 

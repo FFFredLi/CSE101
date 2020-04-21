@@ -14,7 +14,7 @@ typedef struct BigIntegerObj{
 }BigIntegerObj;
 
 
-BigInteger newBigInteger(viod){
+BigInteger newBigInteger(){
     BigInteger B = malloc(sizeof(BigIntegerObj));
     B->sign = 0;
     B->number = newList();
@@ -291,25 +291,124 @@ void add(BigInteger S, BigInteger A, BigInteger B){
     List Q = S->number;
     long carry = 0;
     long temp;
-    if (sign(A) == sign(B)){
+    negate(B);
+    int result = compare(A, B);
+    negate(B);
+    if (result == 0){
+        makeZero(S);
+        return;
+    }
+    if (sign(A) == sign(B)){                                    // 1 + 1 = 2 ;    -1 + (-1) = -2;
         while (index(N) != -1 || index(M) != -1){                 //   +1   +    +2
-            temp = get(N) + get(M) + carry;
-            if (temp > BASE){
+            if(index(N) == -1){
+                temp = get(M) + carry;
+                movePrev(M);
+            }
+            else if(index(M) == -1){
+                temp = get(N) + carry;
+                movePrev(N);
+            }
+            else{
+                temp = get(N) + get(M) + carry;
+                movePrev(N);
+                movePrev(M);
+            }
+            
+            if (temp >= BASE){
                 prepend(Q, temp - BASE);
                 carry = 1;
             } 
             else{
                 prepend(Q, temp);
                 carry = 0;
-            }
-            movePrev(N);
-            movePrev(M);
+            }   
         }
-        new -> sign = A ->sign;
-    }
-    else{
+        if (carry == 1)                           // 50 + 50 = 1  00
+            prepend(Q, carry);
         
+        S -> sign = A ->sign;
     }
+    else if (sign(A) == 1 && sign(B) == -1){ // 1+(-1)  ; 
+        if (result == -1)
+            S->sign = -1;
+        else 
+            S->sign = 1;
+        while(index(N) != -1 || index(M) != -1){
+            
+            if(index(N) == -1){
+                if(result == -1)
+                    temp = get(M) + carry;
+                else
+                    temp = -(get(M)) + carry;
+                movePrev(M);
+            }
+            else if(index(M) == -1){
+                if (result == -1)
+                    temp = -get(N) + carry;   
+                else
+                    temp = get(N) + carry;         // B>A   B length < A       XXXX
+                movePrev(N);
+            }
+            else{
+                if (result == -1)
+                    temp = get(M) - get(N) + carry;
+                else
+                    temp = get(N) - get(M) + carry;
+                movePrev(N);
+                movePrev(M);
+            }
+
+            if (temp < 0){
+                prepend(Q, temp + BASE);
+                carry = -1;
+            }
+            else{
+                prepend(Q, temp);
+                carry = 0;
+            }
+        }
+    }
+    else if (sign(A) == -1 && sign(B) == 1){    //-1 + 1;
+        if (result == -1)
+            S->sign = -1;
+        else
+            S->sign = 1;
+        while(index(N) != -1 || index(M) != -1){
+            
+            
+            if (index(N) == -1){
+                if(result == -1)
+                    temp = -(get(M)) + carry;
+                else
+                    temp = get(M) + carry;
+                movePrev(M);
+            }
+            else if (index(M) == -1){
+                if (result == -1)
+                    temp = get(N) + carry;
+                else 
+                    temp = -(get(N))+carry;
+                movePrev(N);
+            }
+            else{
+                if (result == -1)
+                    temp = get(M) - get(N) + carry;
+                else 
+                    temp = get(N) - get(M) + carry;
+                movePrev(N);
+                movePrev(M);
+            }
+
+            if (temp < 0){
+                prepend(Q, temp + BASE);
+                carry = -1;
+            }
+            else{
+                prepend(Q, temp);
+                carry = 0;
+            }
+        }
+    }                                             
 
     // S = A + B
 
@@ -328,30 +427,10 @@ BigInteger sum(BigInteger A, BigInteger B){
     moveBack(A->number);
     moveBack(B->number);
     BigInteger new = newBigInteger();
-    List N = A->number;
-    List M = B->number;
-    List Q = new->number;
-    long carry = 0;
-    long temp;
-    
-    if (sign(A) == sign(B)){
-        while (index(N) != -1 || index(M) != -1){                 //   +1   +    +2
-            temp = get(N) + get(M) + carry;
-            if (temp > BASE){
-                prepend(Q, temp - BASE);
-                carry = 1;
-            } 
-            else{
-                prepend(Q, temp);
-                carry = 0;
-            }
-            movePrev(N);
-            movePrev(M);
-        }
-        new -> sign = A ->sign;
-    }
-    
 
+    
+    
+    add(new , A, B);
     return new;
 }
 
@@ -367,48 +446,133 @@ void subtract(BigInteger D, BigInteger A, BigInteger B){
     makeZero(D);
     moveBack(A->number);
     moveBack(B->number);
-
+    
     List N = A->number;
     List M = B->number;
     List Q = D->number;
     long carry = 0;
     long temp;
+    int result = compare(A, B);
+    
     // D = A - B
 
-    if (sign(A) == 0){                                        // 0 - (+1) = -1
-
-    }
-    else if (sign(B) == 0){                                   // 1 - 0 = 1
-
-    }
+    if (result == 0){
+        makeZero(D);
+        return;
+    } 
     
-    while (index(N) != -1 || index(M) != -1){                 
-        if (sign(A) == 1 && sign(B) == 1)                    // 1 - 1 = 1 - 1
-            temp = get(N) - get(M) + carry;
-        else if (sign(A) == 1 && sign(B) == -1)              // 1 - (-1) = 1 + 1
-            temp = get(M) - get(N) + carry;
-        if (temp < 0){
-            prepend(Q, temp + BASE);
-            carry = -1;
-        } 
-        else{
-            prepend(Q, temp);
-            carry = 0;
+    if (sign(A) == 1 && sign(B) == 1){
+        if (result == -1)
+            D->sign = -1;
+        else 
+            D->sign = 1;
+        while(index(N) != -1 || index(M) != -1){
+            
+            if(index(N) == -1){
+                if(result == -1)
+                    temp = get(M) + carry;
+                else
+                    temp = -(get(M)) + carry;
+                movePrev(M);
+            }
+            else if(index(M) == -1){
+                if (result == -1)
+                    temp = -get(N) + carry;   
+                else
+                    temp = get(N) + carry;         // B>A   B length < A       XXXX
+                movePrev(N);
+            }
+            else{
+                if (result == -1)
+                    temp = get(M) - get(N) + carry;
+                else
+                    temp = get(N) - get(M) + carry;
+                movePrev(N);
+                movePrev(M);
+            }
+
+            if (temp < 0){
+                prepend(Q, temp + BASE);
+                carry = -1;
+            }
+            else{
+                prepend(Q, temp);
+                carry = 0;
+            }
         }
-        movePrev(N);
-        movePrev(M);
     }
-    
+    else if (sign(A) != sign(B)){
+        D->sign = A->sign;
 
-    /*else if (sign(A) == 1 && sign(B) == -1){
-        BigInteger T = copy(B);
-        negate(T);
-        add(D, A, T);
-        freeBigInteger(&T);
-    }*/
+        while (index(N) != -1 || index(M) != -1){                 //   +1   +    +2
+            if(index(N) == -1){
+                temp = get(M) + carry;
+                movePrev(M);
+            }
+            else if(index(M) == -1){
+                temp = get(N) + carry;
+                movePrev(N);
+            }
+            else{
+                temp = get(N) + get(M) + carry;
+                movePrev(N);
+                movePrev(M);
+            }
+            
+            if (temp >= BASE){
+                prepend(Q, temp - BASE);
+                carry = 1;
+            } 
+            else{
+                prepend(Q, temp);
+                carry = 0;
+            }   
+        }
+        if (carry == 1)                           // 50 + 50 = 1  00
+            prepend(Q, carry);
+    }
+    else if (sign (A) == -1 && sign(B) == -1){
+        if (result == 1)
+            D->sign = 1;
+        else
+            D->sign = -1;
+        while(index(N) != -1 || index(M) != -1){
+            if(index(N) == -1){
+                if(result == -1)
+                    temp = -(get(M)) + carry;
+                else
+                    temp = get(M) + carry;
+                movePrev(M);
+            }
+            else if (index(M) == -1){
+                if(result == -1)
+                    temp = get(N) + carry;
+                else 
+                    temp = -(get(N))+ carry;
+                movePrev(N);
+            }
+            else{
+                if (result == -1)
+                    temp = get(N) - get(M) +carry;
+                else
+                    temp = get(M) - get(N) + carry;
+                movePrev(M);
+                movePrev(N);
+            }
 
-    
+            if (temp < 0){
+                prepend(Q, temp + BASE);
+                carry = -1;
+            }
+            else{
+                prepend(Q, temp);
+                carry = 0;
+            }
 
+        }
+
+        
+    }
 
     
 }
@@ -423,9 +587,22 @@ BigInteger diff(BigInteger A, BigInteger B){
     }
     BigInteger dif = newBigInteger();
 
-
-
+    subtract(dif, A, B);
     return dif;
+}
+
+
+long exponent(int count){
+    long result = 1;
+    if (count == 0)
+        return result;
+    else{
+        while(count != 0){
+            result *= BASE;
+            --count;
+        }
+    }
+    return result;
 }
 
 
@@ -437,6 +614,71 @@ void multiply(BigInteger P, BigInteger A, BigInteger B){
         printf("BigInteger Error : Calling multiply() on NULL BigInteger reference.");
         exit(EXIT_FAILURE);
     }
+
+    if(P != A && P!= B){
+        makeZero(P);
+        moveBack(A->number);
+        moveBack(B->number);
+    }
+    
+    long temp;
+    int counterA = 0;
+    int counterB = 0;
+    long carry = 0;
+    long ind;
+    if (sign(A) == sign(B))
+        P->sign = 1;
+    else
+        P->sign = -1;
+    
+    while (index(B->number) != -1){
+        counterA = 0;
+        moveBack(A->number);
+        
+            while(index(A->number)!= -1){
+                for (int i = 0 ; i < POWER ; i++){
+                    long t = get(B->number);
+                    long ind = t%exponent(i+1);
+                    temp += ind * exponent(i)*get(A->number)*exponent(counterA) + carry;
+                    carry = temp / BASE;
+                    prepend(P->number, temp%BASE);
+                    t = t - ind;
+                }
+                    
+                
+
+                movePrev(A->number);
+                counterA++;
+            }
+            
+        
+
+
+        while (index(A->number) != -1){
+            
+            moveBack(P->number);
+
+            temp = get(B->number) * exponent(counterB) * get(A->number) * exponent(counterA); 
+
+            if (counterB == 0 && counterA == 0){
+                append(P->number, temp%BASE);
+            }
+            else{
+                set(P->number, temp%BASE);
+            }
+            
+
+            carry = temp / BASE;
+
+            movePrev(A->number);
+            counterA++;
+        }
+        movePrev(B->number);
+        counterB++;
+
+    }
+
+
 
     // P = A * B
 
@@ -451,9 +693,7 @@ BigInteger prod(BigInteger A, BigInteger B){
         exit(EXIT_FAILURE);
     }
     BigInteger product = newBigInteger();
-
-
-
+    multiply(product, A, B);
     return product;
 }
 
@@ -478,4 +718,22 @@ void printBigInteger(FILE* out, BigInteger N){
 
 
     printList(out, N->number);
+}
+
+
+void numMulti (BigInteger B, long x){
+    if (B == NULL){
+        printf("BigInteger Error : Calling numMulti() on NULL BigInteger reference.");
+        exit(EXIT_FAILURE);
+    }
+    long temp;
+    long carry;
+
+    moveBack(B->number);
+    while(index(B->number) != -1){
+        temp = x * get(B->number)+carry;
+        carry = temp / BASE;
+        temp = temp % BASE;
+        set(B->number, temp);
+    }
 }
