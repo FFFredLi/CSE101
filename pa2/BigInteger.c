@@ -237,14 +237,16 @@ void putInt(BigInteger B, char* s, int state){
 BigInteger stringToBigInteger(char* s){
     if (s[0] == '+' || s[0] == '-' || isdigit(s[0]) > 0){
         for (int i = 1; i < strlen(s); i++){
+            if (s[i] == '\r' || s[i] == '\n')
+                break;
             if (isdigit(s[i]) == 0){                 // 
-                printf("BigInteger Error: Calling stringToBigInteger() with non-digits arguments\n");
+                printf("BigInteger Error 2: Calling stringToBigInteger() with non-digits arguments\n");
                 exit(EXIT_FAILURE);
             }
         }
     }
     else{
-        printf("BigInteger Error: Calling stringToBigInteger() with non-digits arguments\n");
+        printf("BigInteger Error 1: Calling stringToBigInteger() with non-digits arguments\n");
         exit(EXIT_FAILURE);
     }
     
@@ -715,9 +717,6 @@ void multiply(BigInteger P, BigInteger A, BigInteger B){
         }
         prepend(P->number, temp%BASE);
         
-            
-        
-
 
         /*while (index(A->number) != -1){
             
