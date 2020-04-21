@@ -18,6 +18,8 @@ int main(){
 
     
     BigInteger X;
+    X = sum(Bb,A);
+    
     X = sum(Ab,Bb);
     printBigInteger(stdout, X);
     printf("\n");

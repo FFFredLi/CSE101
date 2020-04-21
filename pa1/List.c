@@ -538,3 +538,34 @@ List concatList(List A, List B){
 
 
 
+int searchList(List L, int x){
+    int i = -1;
+    moveFront(L);
+    while (index(L) >= 0){
+        if (x == get(L)){
+            i = index(L);
+            break;
+        }
+        moveNext(L);
+    }
+    return i;
+}
+
+int isPalindrome(List L){
+    List Temp = copyList(L);
+    while (length(L) > 0){
+        if (front(Temp) != back(Temp)){
+            return -1;
+        }
+
+        if (length(Temp) == 1){
+            deleteFront(Temp);
+        }
+        else{
+            deleteFront(Temp);
+            deleteBack(Temp);
+        }
+        
+    }
+    return 1;
+}

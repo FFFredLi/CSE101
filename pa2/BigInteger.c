@@ -252,6 +252,7 @@ BigInteger stringToBigInteger(char* s){
     BigInteger B = newBigInteger();
     if(s[0] == '-'){
         B->sign = -1;
+     
         putInt(B, s, 1);
     }
     else if (s[0] == '+'){
@@ -292,10 +293,10 @@ void add(BigInteger S, BigInteger A, BigInteger B){
         printf("BigInteger Error : Calling add() on NULL BigInteger reference.");
         exit(EXIT_FAILURE);
     }
-    makeZero(S);
+    
     moveBack(A->number);
     moveBack(B->number);
-
+    moveBack(S->number);
     List N = A->number;
     List M = B->number;
     List Q = S->number;
@@ -325,12 +326,28 @@ void add(BigInteger S, BigInteger A, BigInteger B){
             }
             
             if (temp >= BASE){
-                prepend(Q, temp - BASE);
-                carry = 1;
+                if(S == A||S == B){
+                    moveNext(S->number);
+                    set(S->number, temp - BASE);
+                    movePrev(S->number);
+                    carry = 1;
+                }
+                else{
+                    prepend(Q, temp - BASE);
+                    carry = 1;
+                }
             } 
             else{
-                prepend(Q, temp);
-                carry = 0;
+                if(S == A||S == B){
+                    moveNext(Q);
+                    set(Q,temp);
+                    movePrev(Q);
+                    carry = 0;
+                }
+                else{
+                    prepend(Q, temp);
+                    carry = 0;/* code */
+                }
             }   
         }
         if (carry == 1)                           // 50 + 50 = 1  00
@@ -369,12 +386,30 @@ void add(BigInteger S, BigInteger A, BigInteger B){
             }
 
             if (temp < 0){
-                prepend(Q, temp + BASE);
-                carry = -1;
+                if(S == A||S == B){
+                    moveNext(S->number);
+                    set(S->number, temp + BASE);
+                    movePrev(S->number);
+                    carry = -1;
+                }
+                else{
+                    prepend(Q, temp + BASE);
+                    carry = -1;
+                }
             }
             else{
-                prepend(Q, temp);
-                carry = 0;
+                if(S == A||S == B){
+                    moveNext(S->number);
+                    set(S->number, temp);
+                    movePrev(S->number);
+                    carry = 0;
+                }
+                else{
+                    prepend(Q, temp);
+                    carry = 0;
+                }
+
+                
             }
         }
     }
@@ -410,12 +445,30 @@ void add(BigInteger S, BigInteger A, BigInteger B){
             }
 
             if (temp < 0){
-                prepend(Q, temp + BASE);
-                carry = -1;
+                if(S == A||S == B){
+                    moveNext(S->number);
+                    set(S->number, temp + BASE);
+                    movePrev(S->number);
+                    carry = -1;
+                }
+                else{
+                    prepend(Q, temp + BASE);
+                    carry = -1;
+                }
             }
             else{
-                prepend(Q, temp);
-                carry = 0;
+                if(S == A||S == B){
+                    moveNext(S->number);
+                    set(S->number, temp);
+                    movePrev(S->number);
+                    carry = 0;
+                }
+                else{
+                   prepend(Q, temp);
+                    carry = 0; /* code */
+                }
+                
+                
             }
         }
     }                                             
