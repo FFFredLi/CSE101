@@ -184,13 +184,15 @@ void addArc(Graph G, int u, int v){
     int fun = 0;
     List T = G->totall[v - 1];
     moveFront(T);
-    while (index(T) != -1){
+    
+    
+    /*while (index(T) != -1){
         if(get(T) == u){
             fun = 1;
             break;
         }
         moveNext(T);
-    }
+    }*/
 
 
 
