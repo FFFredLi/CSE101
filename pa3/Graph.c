@@ -169,6 +169,7 @@ void addEdge(Graph G, int u, int v){
     }
     addArc(G, u, v);
     addArc(G, v, u);
+    G->size--;
 }
 
 
@@ -198,7 +199,8 @@ void addArc(Graph G, int u, int v){
 
     T = G->totall[u - 1];
     if (length(T) == 0){
-        append(G->totall[u - 1], v);
+        append(T, v);
+        G->size++;
         return;
     }
     moveFront(T);
