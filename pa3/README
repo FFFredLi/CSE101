@@ -1,0 +1,23 @@
+/*********************************************************************************
+* Yuehao Li, yli509
+* 2020 Spring CSE101 PA3
+* README
+* README for pa3
+*********************************************************************************/
+
+Name: Yuehao Li
+Cruz ID: yli509
+Date: April, 28
+
+PA3:
+1.  List.c   		List implementation file 
+2.  List.h   		List header file 
+3.  README  	Contents of the project 
+4.  Makefile  	Included in Examples, alter as you see fit 
+5.  Graph.c	Graph implementation file
+6.  Graph.h	Graph header file 
+7.  GraphTest.c	Test suit for Graph.
+8.  FindPath.c	Top level client for the project.
+
+
+
