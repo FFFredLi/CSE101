@@ -11,7 +11,7 @@
 #include "List.h"
 #include "Graph.h"
 
-int time;
+//int time;
 
 typedef struct GraphObj{
     List* totall; 
@@ -170,21 +170,22 @@ void addEdge(Graph G, int u, int v){/* Pre: 1<=u<=n, 1<=v<=n */
 } 
 
 
-void visit(Graph G,List S, int i){
+int visit(Graph G,List S, int i, int time){
+    //int temp;
     G->d[i] = ++time;
     G->color[i] = 1;
     moveFront(G->totall[i]);
     while (index(G->totall[i]) != -1){
         if(G->color[get(G->totall[i]) - 1]  == 0){
             G->p[get(G->totall[i]) - 1] = i + 1;
-            visit(G, S, get(G->totall[i]) - 1);
+            time = visit(G, S, get(G->totall[i]) - 1, time);
         }
         moveNext(G->totall[i]);
     }
     G->color[i] = 2;
     G->f[i] = ++time;
     insertAfter(S, i+1);
-    
+    return time;
 
     
 
@@ -211,10 +212,10 @@ void DFS(Graph G, List S){/* Pre: length(S)==getOrder(G) */
         
     }
     moveBack(S);
-    time = 0;
+    int time = 0;
     for (int i = 0; i < G->vertex; i++){
         if(G->color[front(S) - 1] == 0)
-            visit(G,S,front(S) - 1);
+            time = visit(G,S,front(S) - 1, time);
         deleteFront(S);
         
     }
