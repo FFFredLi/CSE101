@@ -1,3 +1,10 @@
+/*********************************************************************************
+* Yuehao Li, yli509
+* 2020 Spring CSE101 PA4
+* Graph.h
+* .h file for Graph ADT
+*********************************************************************************/
+
 #include<stdio.h>
 #include<stdlib.h>
 #define UNDEF -1                      // Any negative value
