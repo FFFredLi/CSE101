@@ -90,6 +90,7 @@ int main(int argc, char* argv[]){
     fclose(in);
     fclose(out);
     freeList(&L);
+    freeList(&Temp);
     freeGraph(&Tr);
     freeGraph(&G);
     return(EXIT_SUCCESS);
