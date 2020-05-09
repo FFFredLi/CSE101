@@ -15,7 +15,8 @@ int main(int argc, char* argv[]){
    List S = newList();
    Graph G = newGraph(n);
    Graph T=NULL;
-   for(i=1; i<=n; i++) append(S, i);
+   for(i=1; i<=n; i++) 
+      append(S, i);
 
    addArc(G, 1,2);
    addArc(G, 2,3);
@@ -36,27 +37,32 @@ int main(int argc, char* argv[]){
 
    DFS(G, S);
 
-   fprintf(stdout, "\n");
+   fprintf(stdout, "\nDFS:\n");
    fprintf(stdout, "x:  d  f  p\n");
    for(i=1; i<=n; i++){
       fprintf(stdout, "%d: %2d %2d %2d\n", i, getDiscover(G, i), getFinish(G, i), getParent(G, i));
    }
-   fprintf(stdout, "\n");
-   printList(stdout, S);
+
    fprintf(stdout, "\n");
 
    T = transpose(G);
 
-   fprintf(stdout, "\n");
+   fprintf(stdout, "\nT:\n");
    printGraph(stdout, T);
-   fprintf(stdout, "\n");
 
-   DFS(T, S);
+   fprintf(stdout, "\nC:\n");
+
+   Graph C = copyGraph(G);
+   printGraph(stdout,C);
    fprintf(stdout, "\n");
+   DFS(T, S);
+
+   fprintf(stdout, "\nDFS(2):\n");
    fprintf(stdout, "x:  d  f  p\n");
    for(i=1; i<=n; i++){
       fprintf(stdout, "%d: %2d %2d %2d\n", i, getDiscover(T, i), getFinish(T, i), getParent(T, i));
    }
+
    fprintf(stdout, "\n");
    printList(stdout, S);
    fprintf(stdout, "\n");
@@ -64,7 +70,7 @@ int main(int argc, char* argv[]){
    freeList(&S);
    freeGraph(&G);
    freeGraph(&T);
-
+   freeGraph(&C);
    return(0);
 }
 
