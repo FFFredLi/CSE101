@@ -1,0 +1,18 @@
+/*********************************************************************************
+* Yuehao Li, yli509
+* 2020 Spring CSE101 PA5
+* README
+* README for PA5
+*********************************************************************************/
+
+Name: Yuehao Li
+Cruz ID: yli509
+Date: May, 12
+ 
+PA5:
+1. Lex.c                          The client for this project.
+2. DictionaryTest.c         Test client of the Dictionary ADT 
+3. Dictionary.c               The majority of work for this project, Dictionary ADT.
+4. Dictionary.h               Dictionary header file 
+5. Makefile                    Makefile, run the program.
+6. README                    Contents of the project 
