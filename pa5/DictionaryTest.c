@@ -55,8 +55,24 @@ int main(){
     delete(U, "c");
     delete(U, "d");
     printf("After Delete:\n");
-    printDictionary(stdout,U);
+    printDictionary(stdout, U);
 
+    printf("Dictionary D (%sunique keys):\n", (getUnique(D)?"":"non-"));
+    printDictionary(stdout, D);
+    printf("\n");
+
+    printf("forward D:\n");
+    for(int x=beginForward(D); currentVal(D)!=VAL_UNDEF; x=next(D)){
+        printf("key: "KEY_FORMAT" value: "VAL_FORMAT"\n", currentKey(D), x);
+    }
+    
+    printf("\n");
+
+    printf("reverse U:\n");
+    for(int y=beginReverse(U); currentVal(U)!=VAL_UNDEF; y=prev(U)){
+        printf("key: "KEY_FORMAT" value: "VAL_FORMAT"\n", currentKey(U), y);
+    }
+   printf("\n\n");
     freeDictionary(&D);
     freeDictionary(&U);
     return 0;
