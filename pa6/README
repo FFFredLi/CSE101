@@ -9,7 +9,7 @@ Name: Yuehao Li
 Cruz ID: yli509
 Date: May, 25
 
-PA5:
+PA6:
 1. README                     A catalog of submitted files and any notes to the grader.
 2. Makefile                     Provided, Makefile, run the program.
 3. Dictionary.h                Provided, Dictionary ADT header file.
