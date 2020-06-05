@@ -276,17 +276,18 @@ void List :: cleanup(){
     Node* tempBefore = beforeCursor;
     Node* tempAfter = afterCursor;
     int * array = new int[num_elements];
+    for (int i = 0; i < num_elements; i++)
+        array[i] = 0;
     //int array[num_elements];
     int cursor = pos_cursor;
     int index = 0;
     //Node * N = frontDummy;
     int temp;
-    int count = 0;
     moveFront();
     bool check = false;
     while(pos_cursor != size()){
         check = false;
-        for(int i = 0; i < num_elements; i++ ){
+        for(int i = 0; i < index; i++ ){
             temp = afterCursor->data;
             if (afterCursor->data == array[i]){
                 if (pos_cursor < cursor){
