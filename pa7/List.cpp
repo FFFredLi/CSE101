@@ -18,30 +18,38 @@ List::Node::Node(int x){
 }
 
 List::List(){
-   frontDummy = nullptr;
-   backDummy = nullptr;
-   beforeCursor = nullptr;
-   afterCursor = nullptr;
-   pos_cursor = 0;
-   num_elements = 0;
+    frontDummy = nullptr;
+    backDummy = nullptr;
+    //frontDummy->next= backDummy;
+    //backDummy->prev = frontDummy;
+    beforeCursor = nullptr;
+    afterCursor = nullptr;
+    pos_cursor = 0;
+    num_elements = 0;
 }
 
 List::List(const List& L){
-   // make this an empty Queue
-   frontDummy = nullptr;
-   backDummy = nullptr;
-   beforeCursor = nullptr;
-   afterCursor = nullptr;
-   pos_cursor = 0;
-   num_elements = 0;
+    frontDummy = nullptr;
+    backDummy = nullptr;
+
+    //frontDummy->next= backDummy;
+    //backDummy->prev = frontDummy;
+
+    beforeCursor = nullptr;
+    afterCursor = nullptr;
+    pos_cursor = 0;
+    num_elements = 0;
 
    // load elements of Q into this
-   Node* N = L.frontDummy;
-   while( N!=nullptr ){
-      this->insertBefore(N->data);
-      N = N->next;
-   }
-   pos_cursor = 0;
+    Node* N = L.frontDummy;
+    while( N!=nullptr ){
+        this->insertBefore(N->data);
+        N = N->next;
+    }
+    //moveFront();
+    pos_cursor = 0;
+    afterCursor = frontDummy;
+    beforeCursor = nullptr;
 }
 
 List::~List(){
@@ -70,6 +78,7 @@ int List::position(){
 
 void List::moveFront(){
     pos_cursor = 0;
+
     beforeCursor = nullptr;
     afterCursor = frontDummy;
 }
@@ -287,8 +296,9 @@ void List :: cleanup(){
     bool check = false;
     while(pos_cursor != size()){
         check = false;
+        temp = afterCursor->data;
         for(int i = 0; i < index; i++ ){
-            temp = afterCursor->data;
+            
             if (afterCursor->data == array[i]){
                 if (pos_cursor < cursor){
                     //count ++;
