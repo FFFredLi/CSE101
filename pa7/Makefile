@@ -1,10 +1,11 @@
 #------------------------------------------------------------------------------
-#  Makefile for List ADT
+#  Makefile for CES101 List ADT PA7
+#  Name: Yuehao Li,      Cruz ID: yli509
 #
 #  make                makes Shuffle
-#  make ListClient     make ListClient
+#  make ListTest     make ListTest
 #  make clean          removes binary files
-#  make check1         runs valgrind on ListClient
+#  make check1         runs valgrind on ListTest
 #  make check2         runs valgrind on Shuffle with CLA 35
 #------------------------------------------------------------------------------
 
@@ -14,19 +15,19 @@ Shuffle : Shuffle.o List.o
 Shuffle.o : List.h Shuffle.cpp
 	g++ -std=c++11 -Wall -c Shuffle.cpp
 
-ListClient : ListClient.o List.o
-	g++ -std=c++11 -Wall -o ListClient ListClient.o List.o 
+ListTest : ListClient.o List.o
+	g++ -std=c++11 -Wall -o ListTest ListTest.o List.o 
 
-ListClient.o : List.h ListClient.cpp
-	g++ -std=c++11 -Wall -c ListClient.cpp
+ListTest.o : List.h ListTest.cpp
+	g++ -std=c++11 -Wall -c ListTest.cpp
 
 List.o : List.h List.cpp
 	g++ -std=c++11 -Wall -c List.cpp
 
 clean :
-	rm -f Shuffle Shuffle.o ListClient ListClient.o List.o
+	rm -f Shuffle Shuffle.o ListTest ListTest.o List.o
 
-check1 : ListClient
+check1 : ListTest
 	valgrind --leak-check=full ListClient
 
 check2 : Shuffle
